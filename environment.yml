@@ -1,0 +1,6 @@
+name: pandas_web
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - feedparser
