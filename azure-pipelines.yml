@@ -30,6 +30,10 @@ jobs:
     displayName: 'Build documentation'
 
   - script: |
+      git remote set-url origin git@github.com:datapythonista/pandas-web.git
+      git fetch origin
+      git checkout -b master
+      git reset --hard upstream/master
       git config user.email "root@localhost"
       git config user.name "Bot via azure-pipelines"
       rm -rf docs/
@@ -61,8 +65,6 @@ jobs:
           eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
-      git remote set-url origin git@github.com:datapythonista/pandas-web.git
-      git fetch origin
       git branch -a
       git push -u origin master
     displayName: 'Publish docs to GitHub pages'
