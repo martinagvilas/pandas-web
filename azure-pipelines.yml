@@ -1,0 +1,58 @@
+jobs:
+- job: 'Docs'
+  pool:
+    vmImage: ubuntu-16.04
+  timeoutInMinutes: 90
+  steps:
+  - script: |
+      echo '##vso[task.setvariable variable=ENV_FILE]environment.yml'
+      echo '##vso[task.prependpath]$(HOME)/miniconda3/bin'
+    displayName: 'Setting environment variables'
+
+  - script: |
+      wget -q "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -O miniconda.sh
+      chmod +x miniconda.sh
+      ./miniconda.sh -b
+      conda env create
+    displayName: 'Setup conda environment'
+
+  - script: |
+      source activate pandas_web
+      python build.py
+    displayName: 'Build documentation'
+
+  - script: |
+      git config user.email "root@localhost"
+      git config user.name "Bot via azure-pipelines"
+      cp -r build/* docs/
+      git add --all docs/
+      git commit -m "Building documentation"
+    displayName: 'Create git repo for docs build'
+    condition : |
+      and(not(eq(variables['Build.Reason'], 'PullRequest')),
+          eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  # For `InstallSSHKey@0` to work, next steps are required:
+  # 1. Generate a pair of private/public keys (i.e. `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`)
+  # 2. Go to "Library > Secure files" in the Azure Pipelines dashboard: https://dev.azure.com/pandas-dev/pandas/_library?itemType=SecureFiles
+  # 3. Click on "+ Secure file"
+  # 4. Upload the private key (the name of the file must match with the specified in "sshKeySecureFile" input below, "pandas_web_key")
+  # 5. Click on file name after it is created, tick the box "Authorize for use in all pipelines" and save
+  # 6. The public key specified in "sshPublicKey" is the pair of the uploaded private key, and needs to be set as a deploy key of the repo where the docs will be pushed (with write access): https://github.com/datapythonista/pandas-web/settings/keys
+  - task: InstallSSHKey@0
+    inputs:
+      hostName: 'github.com,192.30.252.128 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
+      sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDICblAHsJ0jlQDK21SZ5BfFPZDaGofqW/8whcq0GQWKJi3v4aAfszeT2/5wBK0tuHqgXGJgVdhcvUx7+TdMl/vNDR9zGHZOCwohMj/fEq9QPnOi9Ld/zQ7oZ4Xpya4D9OwIOXdeZx/sHShVdxogUz908rugzrfdJ9bUrBxjuNMkrTSe5nxbZd1SONPemfB1HxFiS9V4oR/etg6UOqMPid8BTBZLmcVy/PGUK6gf4DgCDJJ7OXX8TU8f02KTv7x+AvOXhPpDgzqg7Dee8C3ebqZ+PrN34vaLj+5DYhqApK1h8nhr4mWLQqOrBUgwX7DablJQ3e8tiJD8eAr09XaLO9yWCPTSlMy8ck2d5Vx6VadGsLMxNhODICEFwUEWhS8WrmKLKTFPTd9AN7JvhjFsMLnN5GROIyESlW4C40iFubLp0wpEgJd+NnTcggRjDJsWNaKIzE1ZUDhFcAOEGo2cU3sym9YF87So6c/XLHkWSws9W7FSpf3Mf689TVjuM2V4Fg54IvKTlg9R8tbZNC5aVAvTmSw/bsXp3t1zH7e4xd37lGITYK2RzHLS/7MXdJjmXzW6BAeUlJnqygxY4MKAcMqCGmL7utcpzZ3ZOhnMKvWGKgMT4kXlnixBd8YWgq29Ws6dBk6p6WJiYoDyAy1NEwS1KSCc6+8pEe+iIK3zrj9SQ== root@localhost'
+      sshKeySecureFile: 'pandas_web_key'
+    displayName: 'Install GitHub ssh deployment key'
+    condition : |
+      and(not(eq(variables['Build.Reason'], 'PullRequest')),
+          eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - script: |
+      git remote add origin git@github.com:datapythonista/pandas-web.git
+      git push origin master
+    displayName: 'Publish docs to GitHub pages'
+    condition : |
+      and(not(eq(variables['Build.Reason'], 'PullRequest')),
+          eq(variables['Build.SourceBranch'], 'refs/heads/master'))
