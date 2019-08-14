@@ -53,13 +53,13 @@ def main(source_path: str,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Documentation builder.')
-    parser.add_argument('--sources_path', default='source',
+    parser.add_argument('--sources-path', default='source',
                         help='path to the directory with the markdown pages')
-    parser.add_argument('--theme_path', default='theme',
+    parser.add_argument('--theme-path', default='theme',
                         help='path to the directory with the static files')
-    parser.add_argument('--target_path', default='build',
+    parser.add_argument('--target-path', default='build',
                         help='directory where to write the output')
-    parser.add_argument('--base_url', default='',
+    parser.add_argument('--base-url', default='',
                         help='base url where the website is served from')
     args = parser.parse_args()
     sys.exit(main(args.sources_path,
