@@ -11,6 +11,9 @@ import markdown
 import jinja2
 
 
+BASE_PATH = '/docs'
+
+
 def get_source_files(source_path: str) -> typing.Generator[str, None, None]:
     for root, dirs, fnames in os.walk(source_path):
         root = os.path.relpath(root, source_path)
@@ -38,7 +41,8 @@ def main(source_path: str, theme_path: str, target_path: str) -> int:
                 content += '{% block body %}'
                 content += body
                 content += '{% endblock %}'
-            content = jinja_env.from_string(content).render()
+            content = (jinja_env.from_string(content)
+                                .render(base_path=BASE_PATH))
             fname = os.path.splitext(fname)[0] + '.html'
             with open(os.path.join(target_path, fname), 'w') as f:
                 f.write(content)
