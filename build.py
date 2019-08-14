@@ -37,9 +37,10 @@ def get_posts():
 
 
 def generate_blog(jinja_env: jinja2.Environment,
-                  target_path: str):
+                  target_path: str,
+                  base_url: str):
     template = jinja_env.get_template('blog.html')
-    content = template.render(posts=get_posts())
+    content = template.render(posts=get_posts(), base_url=base_url)
     with open(os.path.join(target_path, 'blog.html'), 'w') as f:
         f.write(content)
 
@@ -74,7 +75,7 @@ def main(source_path: str,
                 content += body
                 content += '{% endblock %}'
             content = (jinja_env.from_string(content)
-                                .render(base_path=base_url))
+                                .render(base_url=base_url))
             fname = os.path.splitext(fname)[0] + '.html'
             with open(os.path.join(target_path, fname), 'w') as f:
                 f.write(content)
@@ -82,7 +83,7 @@ def main(source_path: str,
             shutil.copy(os.path.join(source_path, fname),
                         os.path.join(target_path, dirname))
 
-    generate_blog(jinja_env, target_path)
+    generate_blog(jinja_env, target_path, base_url)
     shutil.copytree(os.path.join(theme_path, 'static/'),
                     os.path.join(target_path, 'static'))
 
