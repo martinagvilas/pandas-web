@@ -24,6 +24,9 @@ jobs:
   - script: |
       git config user.email "root@localhost"
       git config user.name "Bot via azure-pipelines"
+      rm -rf docs/
+      mkdir docs/
+      printf "User-agent: *\nDisallow: /" > docs/robots.txt
       cp -r build/* docs/
       git add --all docs/
       git commit -m "Building documentation"
@@ -50,7 +53,6 @@ jobs:
           eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
-      git remote add origin git@github.com:datapythonista/pandas-web.git
       git push origin master
     displayName: 'Publish docs to GitHub pages'
     condition : |
