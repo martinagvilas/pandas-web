@@ -1,14 +1,47 @@
-"""
-Step 1: Convert rst files to html
-Step 2: Render templates with Jinja
-"""
 import argparse
+import datetime
+import operator
 import os
 import shutil
 import sys
+import time
 import typing
+import feedparser
 import markdown
 import jinja2
+
+
+NUM_POSTS = 8
+SITES = ['https://wesmckinney.com/feeds/all.atom.xml',
+         'https://tomaugspurger.github.io/feed',
+         'https://jorisvandenbossche.github.io/feeds/all.atom.xml',
+         'https://datapythonista.github.io/blog/atom.xml']
+
+
+def get_posts():
+    posts = []
+    for feed_url in SITES:
+        feed_data = feedparser.parse(feed_url)
+        for entry in feed_data.entries:
+            published = datetime.datetime.fromtimestamp(
+                time.mktime(entry.published_parsed))
+            posts.append({'title': entry.title,
+                          'author': entry.author,
+                          'published': published,
+                          'feed': feed_data['feed']['title'],
+                          'link': entry.link,
+                          'description': entry.description,
+                          'summary': entry.summary})
+    posts.sort(key=operator.itemgetter('published'), reverse=True)
+    return posts[:NUM_POSTS]
+
+
+def generate_blog(jinja_env: jinja2.Environment,
+                  target_path: str):
+    template = jinja_env.get_template('blog.html')
+    content = template.render(posts=get_posts())
+    with open(os.path.join(target_path, 'blog.html'), 'w') as f:
+        f.write(content)
 
 
 def get_source_files(source_path: str) -> typing.Generator[str, None, None]:
@@ -22,10 +55,10 @@ def main(source_path: str,
          theme_path: str,
          target_path: str,
          base_url: str) -> int:
+    shutil.rmtree(target_path, ignore_errors=True)
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(theme_path))
 
     for fname in get_source_files(source_path):
-        print(fname)
         dirname = os.path.dirname(fname)
         os.makedirs(os.path.join(target_path, dirname), exist_ok=True)
 
@@ -36,7 +69,6 @@ def main(source_path: str,
             if extension == '.md':
                 body = markdown.markdown(content,
                                          extensions=['fenced_code'])
-                # XXX this is a bit tricky, probably there is a better way
                 content = '{% extends "layout.html" %}'
                 content += '{% block body %}'
                 content += body
@@ -49,6 +81,10 @@ def main(source_path: str,
         else:
             shutil.copy(os.path.join(source_path, fname),
                         os.path.join(target_path, dirname))
+
+    generate_blog(jinja_env, target_path)
+    shutil.copytree(os.path.join(theme_path, 'static/'),
+                    os.path.join(target_path, 'static'))
 
 
 if __name__ == '__main__':
