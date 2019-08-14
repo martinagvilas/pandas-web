@@ -11,9 +11,6 @@ import markdown
 import jinja2
 
 
-BASE_PATH = '/docs'
-
-
 def get_source_files(source_path: str) -> typing.Generator[str, None, None]:
     for root, dirs, fnames in os.walk(source_path):
         root = os.path.relpath(root, source_path)
@@ -21,7 +18,10 @@ def get_source_files(source_path: str) -> typing.Generator[str, None, None]:
             yield os.path.join(root, fname)
 
 
-def main(source_path: str, theme_path: str, target_path: str) -> int:
+def main(source_path: str,
+         theme_path: str,
+         target_path: str,
+         base_url: str) -> int:
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(theme_path))
 
     for fname in get_source_files(source_path):
@@ -42,7 +42,7 @@ def main(source_path: str, theme_path: str, target_path: str) -> int:
                 content += body
                 content += '{% endblock %}'
             content = (jinja_env.from_string(content)
-                                .render(base_path=BASE_PATH))
+                                .render(base_path=base_url))
             fname = os.path.splitext(fname)[0] + '.html'
             with open(os.path.join(target_path, fname), 'w') as f:
                 f.write(content)
@@ -59,5 +59,10 @@ if __name__ == '__main__':
                         help='path to the directory with the static files')
     parser.add_argument('--target_path', default='build',
                         help='directory where to write the output')
+    parser.add_argument('--base_url', default='',
+                        help='base url where the website is served from')
     args = parser.parse_args()
-    sys.exit(main(args.sources_path, args.theme_path, args.target_path))
+    sys.exit(main(args.sources_path,
+                  args.theme_path,
+                  args.target_path,
+                  args.base_url))
