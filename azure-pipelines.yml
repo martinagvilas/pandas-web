@@ -54,8 +54,7 @@ jobs:
 
   - script: |
       git remote set-url origin git@github.com:datapythonista/pandas-web.git
-      git remote -v
-      git push origin master
+      git push -u origin master
     displayName: 'Publish docs to GitHub pages'
     condition : |
       and(not(eq(variables['Build.Reason'], 'PullRequest')),
