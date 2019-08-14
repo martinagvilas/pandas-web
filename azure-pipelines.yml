@@ -30,7 +30,7 @@ jobs:
       cp -r build/* docs/
       git add --all docs/
       git commit -m "Building documentation"
-    displayName: 'Create git repo for docs build'
+    displayName: 'Commit build files to the repo'
     condition : |
       and(not(eq(variables['Build.Reason'], 'PullRequest')),
           eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -53,6 +53,8 @@ jobs:
           eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
+      git remote set-url origin git@github.com:datapythonista/pandas-web.git
+      git remote -v
       git push origin master
     displayName: 'Publish docs to GitHub pages'
     condition : |
