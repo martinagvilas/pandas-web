@@ -1,3 +1,8 @@
+trigger:
+  branches:
+    exclude:
+    - docs/*
+
 jobs:
 - job: 'Docs'
   pool:
@@ -55,6 +60,7 @@ jobs:
   - script: |
       git remote set-url origin git@github.com:datapythonista/pandas-web.git
       git fetch origin
+      git branch -a
       git push -u origin master
     displayName: 'Publish docs to GitHub pages'
     condition : |
