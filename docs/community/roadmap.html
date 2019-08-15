@@ -12,9 +12,8 @@
         
     </head>
     <body>
-        <div class="container-fluid">
-                
-            <nav class="navbar navbar-expand-sm navbar-light bg-faded">
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -101,8 +100,10 @@
                     </ul>
                 </div>
             </nav>
-
-            <h1>Roadmap</h1>
+        </header>
+        <main role="main">
+            <div class="container">
+                <h1>Roadmap</h1>
 <p>This page provides an overview of the major themes in pandas'
 development. Each of these items requires a relatively large amount of
 effort to implement. These may be achieved more quickly with dedicated
@@ -262,7 +263,16 @@ notified of the proposal.</p>
 <p>When there's agreement that an implementation would be welcome, the
 roadmap should be updated to include the summary and a link to the
 discussion issue.</p>
-        </div>
+            </div>
+        </main>
+        <footer class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p>
+                © 2009 - 2019, pandas team
+            </p>
+        </footer>
                 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
