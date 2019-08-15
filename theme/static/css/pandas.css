@@ -6,9 +6,6 @@ body {
 code {
     white-space: pre;
 }
-div.maintainers div.card {
-    width: 12rem;
-}
 a.navbar-brand img {
     max-height: 2em;
 }

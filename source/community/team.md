@@ -8,13 +8,13 @@ If you want to support pandas development, you can find information at the [Dona
 
 ## Maintainers
 
-<div class="maintainers">
+<div class="card-deck mb-5 text-center maintainers">
     {% for person in maintainers.people %}
         <div class="card">
             <img class="card-img-top" alt="" src="{{ person.avatar_url }}"/>
             <div class="card-body">
-                <h5 class="card-title"><a href="{% if person.blog %}{{ person.blog }}{% else %}{{ person.html_url }}{% endif %}">{{ person.name }}</a></h5>
-                <p class="card-text">GitHub username: {{ person.login }}</p>
+                <h5 class="card-title"><a href="{% if person.blog %}{{ person.blog }}{% else %}{{ person.html_url }}{% endif %}" target="_blank">{{ person.name }}</a></h5>
+                <p class="card-text">GitHub: <b>{{ person.login }}</b></p>
             </div>
         </div>
     {% endfor %}
