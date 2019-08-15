@@ -12,9 +12,8 @@
         
     </head>
     <body>
-        <div class="container-fluid">
-                
-            <nav class="navbar navbar-expand-sm navbar-light bg-faded">
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -101,8 +100,10 @@
                     </ul>
                 </div>
             </nav>
-
-            <h1>pandas docstring guide</h1>
+        </header>
+        <main role="main">
+            <div class="container">
+                <h1>pandas docstring guide</h1>
 <h2>About docstrings and standards</h2>
 <p>A Python docstring is a string used to document a Python module, class,
 function or method, so programmers can understand what it does without
@@ -972,7 +973,16 @@ slightly closer to normal.</p>
 <p>See <code>pandas.core.generic.NDFrame.fillna</code> for an example template, and
 <code>pandas.core.series.Series.fillna</code> and
 <code>pandas.core.generic.frame.fillna</code> for the filled versions.</p>
-        </div>
+            </div>
+        </main>
+        <footer class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p>
+                © 2009 - 2019, pandas team
+            </p>
+        </footer>
                 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

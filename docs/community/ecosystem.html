@@ -12,9 +12,8 @@
         
     </head>
     <body>
-        <div class="container-fluid">
-                
-            <nav class="navbar navbar-expand-sm navbar-light bg-faded">
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -101,8 +100,10 @@
                     </ul>
                 </div>
             </nav>
-
-            <h1>Pandas ecosystem</h1>
+        </header>
+        <main role="main">
+            <div class="container">
+                <h1>Pandas ecosystem</h1>
 <p>Increasingly, packages are being built on top of pandas to address
 specific needs in data preparation, analysis and visualization. This is
 encouraging because it means pandas is not only helping users to handle
@@ -390,7 +391,16 @@ authors to coordinate on the namespace.</p>
 <hr />
 <p><a href="https://cyberpandas.readthedocs.io/en/latest">cyberpandas</a>   <code>ip</code>       <code>Series</code>
   <a href="https://altair-viz.github.io/pdvega/">pdvega</a>                <code>vgplot</code>   <code>Series</code>, <code>DataFrame</code></p>
-        </div>
+            </div>
+        </main>
+        <footer class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p>
+                © 2009 - 2019, pandas team
+            </p>
+        </footer>
                 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
