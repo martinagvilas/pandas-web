@@ -50,9 +50,11 @@ class Preprocessors:
         return context
 
 
-def get_context(config_fname: str, preprocessors=[]):
+def get_context(config_fname: str, preprocessors=[], **kwargs):
     with open(config_fname) as f:
         context = yaml.safe_load(f)
+
+    context.update(kwargs)
 
     for preprocessor in preprocessors:
         context = preprocessor(context)
@@ -82,8 +84,8 @@ def main(config_fname: str,
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(theme_path))
     context = get_context(config_fname,
                           preprocessors=[Preprocessors.navbar_add_info,
-                                         Preprocessors.blog_add_posts])
-    context['base_url'] = base_url
+                                         Preprocessors.blog_add_posts],
+                          base_url=base_url)
 
     for fname in get_source_files(source_path):
         sys.stderr.write(f'Processing {fname}\n')
