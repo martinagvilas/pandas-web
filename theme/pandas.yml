@@ -27,6 +27,8 @@ navbar:
       target: https://stackoverflow.com/questions/tagged/pandas
     - name: "Discuss (mailing list)"
       target: https://groups.google.com/forum/#!forum/pydata
+    - name: "Code of Conduct"
+      target: /community/coc.html
     - name: "Citing pandas"
       target: /community/citing.html
     - name: "Contributing to pandas"

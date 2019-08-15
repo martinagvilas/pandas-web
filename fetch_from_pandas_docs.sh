@@ -1,4 +1,7 @@
 #!/bin/bash
+wget --no-check-certificate https://raw.githubusercontent.com/pandas-dev/pandas/master/.github/CODE_OF_CONDUCT.md -o source/community/coc.md
+rm CODE_OF_CONDUCT.md
+
 wget https://raw.githubusercontent.com/pandas-dev/pandas/master/doc/source/development/roadmap.rst --no-check-certificate
 pandoc -s -o roadmap.md roadmap.rst
 printf "# Roadmap\n\n$(tail -n +5 roadmap.md | sed ':again;$!N;$!b again; s/{[^}]*}//g')" > source/community/roadmap.md
