@@ -8,12 +8,14 @@ If you want to support pandas development, you can find information at the [Dona
 
 ## Maintainers
 
-<div class="team">
+<div class="maintainers">
     {% for person in maintainers.people %}
-        <div class="team-member">
-            <img alt="" src="{{ person.avatar_url }}"/>
-            <p><a href="{% if person.blog %}{{ person.blog }}{% else %}{{ person.html_url }}{% endif %}">{{ person.name }}</a></p>
-            <p>{{ person.login }}</p>
+        <div class="card">
+            <img class="card-img-top" alt="" src="{{ person.avatar_url }}"/>
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% if person.blog %}{{ person.blog }}{% else %}{{ person.html_url }}{% endif %}">{{ person.name }}</a></h5>
+                <p class="card-text">GitHub username: {{ person.login }}</p>
+            </div>
         </div>
     {% endfor %}
 </div>
