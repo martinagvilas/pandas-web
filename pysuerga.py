@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import argparse
 import datetime
 import operator
@@ -86,11 +87,13 @@ def main(config_fname: str,
                     os.path.join(target_path, 'static'))
 
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(theme_path))
+    sys.stderr.write('Generating context...\n')
     context = get_context(config_fname,
                           preprocessors=[Preprocessors.navbar_add_info,
                                          Preprocessors.blog_add_posts,
                                          Preprocessors.maintainers_add_info],
                           base_url=base_url)
+    sys.stderr.write('Context generated\n')
 
     for fname in get_source_files(source_path):
         sys.stderr.write(f'Processing {fname}\n')

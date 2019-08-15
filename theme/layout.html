@@ -6,8 +6,10 @@
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
-        <link rel="stylesheet"
-              href="{{ base_url }}/static/pandas.css">
+        {% for stylesheet in static.css %}
+            <link rel="stylesheet"
+                  href="{{ base_url }}{{ stylesheet }}">
+        {% endfor %}
     </head>
     <body>
         <div class="container-fluid">
@@ -17,7 +19,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <a class="navbar-brand" href="{{ base_url }}/">Logo</a>
+                <a class="navbar-brand" href="{{ base_url }}/"><img alt="" src="{{ base_url }}{{ static.logo }}"/></a>
 
                 <div class="collapse navbar-collapse" id="nav-content">   
                     <ul class="navbar-nav">
