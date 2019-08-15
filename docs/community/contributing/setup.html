@@ -102,74 +102,128 @@
                 </div>
             </nav>
 
-            <h1>About pandas</h1>
-<h2>History of development</h2>
-<p>In 2008, <em>pandas</em> development began at <a href="http://www.aqr.com">AQR Capital Management</a>.
-By the end of 2009 it had been <a href="http://en.wikipedia.org/wiki/Open_source">open sourced</a>,
-and is actively supported today by a community of like-minded individuals around the world who
-contribute their valuable time and energy to help make open source <em>pandas</em>
-possible. Thank you to <a href="team.html">all of our contributors</a>.</p>
-<p>Since 2015, <em>pandas</em> is a <a href="https://numfocus.org/sponsored-projects">NumFOCUS sponsored project</a>.
-This will help ensure the success of development of <em>pandas</em> as a world-class open-source project.</p>
-<h2>Library Highlights</h2>
+            <h1>Set up an pandas development environment</h1>
+<p>Before starting setting up a pandas development environment, you should have
+the next software installed:</p>
 <ul>
-<li>
-<p>A fast and efficient <strong>DataFrame</strong> object for data manipulation with
-  integrated indexing;</p>
-</li>
-<li>
-<p>Tools for <strong>reading and writing data</strong> between in-memory data structures and
-  different formats: CSV and text files, Microsoft Excel, SQL databases, and
-  the fast HDF5 format;</p>
-</li>
-<li>
-<p>Intelligent <strong>data alignment</strong> and integrated handling of <strong>missing data</strong>:
-  gain automatic label-based alignment in computations and easily manipulate
-  messy data into an orderly form;</p>
-</li>
-<li>
-<p>Flexible <strong>reshaping</strong> and pivoting of data sets;</p>
-</li>
-<li>
-<p>Intelligent label-based <strong>slicing</strong>, <strong>fancy indexing</strong>, and <strong>subsetting</strong>
-  of large data sets;</p>
-</li>
-<li>
-<p>Columns can be inserted and deleted from data structures for <strong>size
-  mutability</strong>;</p>
-</li>
-<li>
-<p>Aggregating or transforming data with a powerful <strong>group by</strong> engine
-  allowing split-apply-combine operations on data sets;</p>
-</li>
-<li>
-<p>High performance <strong>merging and joining</strong> of data sets;</p>
-</li>
-<li>
-<p><strong>Hierarchical axis indexing</strong> provides an intuitive way of working with
-  high-dimensional data in a lower-dimensional data structure;</p>
-</li>
-<li>
-<p><strong>Time series</strong>-functionality: date range generation and frequency
-  conversion, moving window statistics, moving window linear regressions, date
-  shifting and lagging. Even create domain-specific time offsets and join time
-  series without losing data;</p>
-</li>
-<li>
-<p>Highly <strong>optimized for performance</strong>, with critical code paths written in
-  <a href="http://www.cython.org/">Cython</a> or C.</p>
-</li>
-<li>
-<p>Python with <em>pandas</em> is in use in a wide variety of <strong>academic and
-  commercial</strong> domains, including Finance, Neuroscience, Economics,
-  Statistics, Advertising, Web Analytics, and more.</p>
-</li>
+<li>Git</li>
+<li>An editor (vim, emacs, PyCharm,...). Make sure the editor is set up
+    to use 4 spaces for tabs.</li>
 </ul>
-<h2>WIP</h2>
-<p>Add other things to this page, for example:</p>
+<hr />
+<p>The steps below will download around 900Mb for the pandas
+repository, and around 600Mb for Anaconda from the Internet.</p>
+<hr />
+<h2>Instructions</h2>
+<h3>Create a GitHub account</h3>
+<p>If you don't have a GitHub account yet, simply go to https://github.com/join,
+and provide your personal information (name, email...). Select the free plan.</p>
+<h3>Get the pandas source code</h3>
+<p>All the changes during the sprints need to be made to the latest
+development version of pandas in a Git repository. Do not make them to a
+version downloaded from the Internet via pip, conda or a zip.</p>
+<p>Follow these steps to get the latest development version:</p>
+<p>Fork the <a href="https://github.com/pandas-dev/pandas">pandas repository</a> on
+GitHub by clicking the <em>Fork</em> button on the top-right</p>
+<hr />
+<p><strong>Windows users</strong>
+Run the next commands in a Git Bash session
+in the directory where you want to download pandas source code (download
+<a href="https://gitforwindows.org/">Git for Windows</a> if needed).</p>
+<hr />
+<p>In the terminal of your computer, in the directory where you want the
+copy of pandas source code, run:</p>
+<pre><code>git clone https://github.com/&lt;your-github-username&gt;/pandas
+</code></pre>
+<p>or (if you have set up SSH keys for accessing GitHub):</p>
+<pre><code>git clone git@github.com:&lt;your-github-username&gt;/pandas
+</code></pre>
+<p>This will create a directory named <code>pandas</code>, containing the latest
+version of the source code. We will name this directory <code>&lt;pandas-dir&gt;</code>
+in the rest of this document.</p>
+<p>Make sure you're in the root of the <code>&lt;pandas-dir&gt;</code> directory. ::</p>
+<pre><code>cd &lt;pandas-dir&gt;
+</code></pre>
+<p>Then, set the upstream remote, so you can fetch the updates from the
+pandas repository:</p>
+<pre><code>git remote add upstream https://github.com/pandas-dev/pandas
+</code></pre>
+<p>or (if you have set up SSH keys for accessing GitHub):</p>
+<pre><code>git remote add upstream git@github.com:pandas-dev/pandas
+</code></pre>
+<p>To fetch the latest updates from the pandas repository, follow the steps
+in <a href="https://help.github.com/articles/syncing-a-fork/">Syncing a Fork</a>:</p>
+<pre><code>git fetch upstream
+git checkout master
+git merge upstream/master
+</code></pre>
+<h3>Set up a Python environment</h3>
+<p>Download and install <a href="https://www.anaconda.com/download/">Anaconda</a>.</p>
+<hr />
+<p><strong>Windows users</strong>
+Run the next commands in the Anaconda Prompt (found in the Anaconda
+folder of the Start menu).</p>
+<hr />
+<p>Activate conda in one of the following ways (or equivalent, if you know what you're doing):</p>
 <ul>
-<li>Vision / Mission / Values</li>
+<li>If you chose to prepend Anaconda to your PATH during install adding it to
+  your <code>~/.bashrc</code>, just restart your terminal.</li>
+<li>Otherwise, run <code>export PATH="&lt;path-to-anaconda&gt;/bin:$PATH"</code> in your
+  terminal. Keep in mind that it will be active exclusively in the terminal
+  you run this command.</li>
 </ul>
+<p>Create a conda environment:</p>
+<pre><code>conda env create
+</code></pre>
+<p>Activate the new conda environment:</p>
+<pre><code>source activate pandas_dev
+</code></pre>
+<h3>Compile C code in pandas</h3>
+<p>Besides the Python <code>.py</code> files, pandas source code includes C/Cython files
+which need to be compiled in order to run the development version of pandas.</p>
+<hr />
+<p><strong>Windows users</strong>
+To compile pandas, you need to install <a href="https://www.visualstudio.com/">Visual Studio 2017</a>.
+You need Visual Studio Community 2017 (2.5GB download during installation) as a minimum. Visual Studio Code
+does not support the required Build Tools and will not work.</p>
+<p>Select the workload "Python development" and the option "Python native
+development tools" on the right side.</p>
+<hr />
+<p>After the installation, run the following commands in Anaconda Prompt.</p>
+<p>To compile these files simply run:</p>
+<pre><code>cd &lt;pandas-dir&gt;
+python setup.py build_ext --inplace
+</code></pre>
+<p>The process will take several minutes.</p>
+<h3>Create a branch and start coding</h3>
+<p>On the day of the sprint, you will get assigned one pandas function or
+method to work on. Once you know which, you need to create a git branch
+for your changes. This will be useful when you have finished your
+changes, and you want to submit a pull request, so they are included in
+pandas.</p>
+<hr />
+<p><strong>Windows users</strong>
+Run the next commands with Git Bash started in the cloned pandas folder.</p>
+<hr />
+<p>Before creating a branch, make sure that you fetched the latest master
+version of the upstream pandas repository. You can do this with:</p>
+<pre><code>git checkout master
+git pull upstream master --ff-only
+</code></pre>
+<p>Then, you can create a new git branch running:</p>
+<pre><code>git checkout -b &lt;new_branch_name&gt;
+</code></pre>
+<p>The branch name should be descriptive of the feature you will work on.
+For example, if you will work on the docstring of the method <code>head</code>, you
+can name your branch <code>docstring_head</code>.</p>
+<p>If during the sprint you work in more than one docstring, you will need
+a branch for each.</p>
+<p>To check in which branch are you:</p>
+<pre><code>git branch
+</code></pre>
+<p>To change to another branch:</p>
+<pre><code>git checkout &lt;branch_name&gt;
+</code></pre>
         </div>
                 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
