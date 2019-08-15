@@ -28,6 +28,8 @@ The project governance is available in the [governance document](governance.html
 
 ## NumFOCUS
 
+![](https://numfocus.org/wp-content/uploads/2018/01/optNumFocus_LRG.png)
+
 _pandas_ is a Sponsored Project of [NumFOCUS](https://numfocus.org/), a 501(c)(3) nonprofit charity in the United States.
 NumFOCUS provides _pandas_ with fiscal, legal, and administrative support to help ensure the
 health and sustainability of the project. Visit numfocus.org for more information.
@@ -60,7 +62,7 @@ to the extent provided by law. As with any donation, you should consult with you
 
 In-kind sponsors
 
-- [Indeed](https://opensource.indeedeng.io/)
+- [Indeed](https://opensource.indeedeng.io/): Logo and website design
 - Can we find a donor for the hosting (website, benchmarks,...?)
 
 ## Emeritus maintainers
