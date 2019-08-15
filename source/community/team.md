@@ -20,6 +20,7 @@ _pandas_ is made with love by >1,500 volunteer contributors, and maintained by t
         <div class="team-member">
             <img alt="" src="{{ person.avatar_url }}"/>
             <p><a href="{% if person.blog %}{{ person.blog }}{% else %}{{ person.html_url }}{% endif %}">{{ person.name }}</a></p>
+            <p>{{ person.login }}</p>
         </div>
     {% endfor %}
 </div>
