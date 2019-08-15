@@ -1,5 +1,6 @@
 #!/bin/bash
 wget --no-check-certificate https://raw.githubusercontent.com/pandas-dev/pandas/master/.github/CODE_OF_CONDUCT.md -O source/community/coc.md
+wget --no-check-certificate https://raw.githubusercontent.com/pandas-dev/pandas-governance/master/governance.md -O source/community/governance.md
 
 wget https://raw.githubusercontent.com/pandas-dev/pandas/master/doc/source/development/roadmap.rst --no-check-certificate
 pandoc -s -o roadmap.md roadmap.rst
