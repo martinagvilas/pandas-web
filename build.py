@@ -86,6 +86,7 @@ def main(config_fname: str,
     context['base_url'] = base_url
 
     for fname in get_source_files(source_path):
+        sys.stderr.write(f'Processing {fname}\n')
         dirname = os.path.dirname(fname)
         os.makedirs(os.path.join(target_path, dirname), exist_ok=True)
 
