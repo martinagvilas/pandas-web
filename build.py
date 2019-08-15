@@ -6,17 +6,12 @@ import shutil
 import sys
 import time
 import typing
+
 import feedparser
 import markdown
 import jinja2
+import requests
 import yaml
-
-
-NUM_POSTS = 8
-SITES = ['https://wesmckinney.com/feeds/all.atom.xml',
-         'https://tomaugspurger.github.io/feed',
-         'https://jorisvandenbossche.github.io/feeds/all.atom.xml',
-         'https://datapythonista.github.io/blog/atom.xml']
 
 
 class Preprocessors:
@@ -47,6 +42,15 @@ class Preprocessors:
                               'summary': entry.summary})
         posts.sort(key=operator.itemgetter('published'), reverse=True)
         context['blog']['posts'] = posts[:context['blog']['num_posts']]
+        return context
+
+    @staticmethod
+    def maintainers_add_info(context):
+        context['maintainers']['people'] = []
+        for user in context['maintainers']['active']:
+            resp = requests.get(f'https://api.github.com/users/{user}')
+            resp.raise_for_status()
+            context['maintainers']['people'].append(resp.json())
         return context
 
 
@@ -84,7 +88,8 @@ def main(config_fname: str,
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(theme_path))
     context = get_context(config_fname,
                           preprocessors=[Preprocessors.navbar_add_info,
-                                         Preprocessors.blog_add_posts],
+                                         Preprocessors.blog_add_posts,
+                                         Preprocessors.maintainers_add_info],
                           base_url=base_url)
 
     for fname in get_source_files(source_path):
@@ -114,7 +119,7 @@ def main(config_fname: str,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Documentation builder.')
-    parser.add_argument('config_fname', default='theme/pandas.yml',
+    parser.add_argument('config_fname',
                         help='path to the yaml config file')
     parser.add_argument('--sources-path', default='source',
                         help='path to the directory with the markdown pages')
