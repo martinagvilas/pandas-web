@@ -55,4 +55,5 @@ This will help ensure the success of development of _pandas_ as a world-class op
 ## WIP
 
 Add other things to this page, for example:
+
 - Vision / Mission / Values

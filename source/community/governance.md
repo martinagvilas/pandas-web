@@ -64,7 +64,7 @@ The foundations of Project governance are:
 
 Traditionally, Project leadership was provided by a BDFL (Wes McKinney) and
 subset of Contributors, called the Core Team, whose active and consistent
-contributions have been recognized by their receiving “commit rights” to the
+contributions have been recognized by their receiving "commit rights" to the
 Project GitHub repositories. In general all Project decisions are made through
 consensus among the Core Team with input from the Community. The BDFL can, but
 rarely chooses to, override the Core Team and make a final decision on a
@@ -85,7 +85,7 @@ decisions for The Project. As Benevolent, the BDFL, in practice chooses to
 defer that authority to the consensus of the community discussion channels and
 the Core Team. It is expected, and in the past has been the case, that the BDFL
 will only rarely assert his/her final authority. Because it is rarely used, we
-refer to BDFL’s final authority as a “special” or “overriding” vote. When it
+refer to BDFL’s final authority as a "special" or "overriding" vote. When it
 does occur, the BDFL override typically happens in situations where there is a
 deadlock in the Core Team or if the Core Team ask the BDFL to make a decision
 on a specific matter. To ensure the benevolence of the BDFL, The Project
@@ -150,8 +150,8 @@ When considering potential Members, the Core Team will look at candidates with
 a comprehensive view of their contributions. This will include but is not
 limited to code, code review, infrastructure work, mailing list and chat
 participation, community help/building, education and outreach, design work,
-etc. We are deliberately not setting arbitrary quantitative metrics (like “100
-commits in this repo”) to avoid encouraging behavior that plays to the metrics
+etc. We are deliberately not setting arbitrary quantitative metrics (like "100
+commits in this repo") to avoid encouraging behavior that plays to the metrics
 rather than the project’s overall well-being. We want to encourage a diverse
 array of backgrounds, viewpoints and talents in our team, which is why we
 explicitly do not define code as the sole metric on which Core Team membership
@@ -219,7 +219,7 @@ committee disagrees with that delegate’s decision and no resolution is possibl
 within the team. This is different from a BDFL delegate for a specific decision
 (or a recusal situation), where the BDFL is literally giving up his/her
 authority to someone else in full. It’s more like what Linus Torvalds uses with his
-“lieutenants” model.
+"lieutenants" model.
 
 ### NumFOCUS Subcommittee
 

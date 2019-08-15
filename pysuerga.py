@@ -50,6 +50,9 @@ class Preprocessors:
         context['maintainers']['people'] = []
         for user in context['maintainers']['active']:
             resp = requests.get(f'https://api.github.com/users/{user}')
+            # FIXME GitHub quota limit reached, failing silently for now
+            if resp.status_code == 403:
+                return context
             resp.raise_for_status()
             context['maintainers']['people'].append(resp.json())
         return context
