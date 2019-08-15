@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
+
 {% block body %}
-    {% for post in posts %}
+    {% for post in blog.posts %}
         <div class="post-container">
             <h3><a href="{{post.link }}" target="_blank">{{ post.title }}</a></h3>
             <p>Source: {{ post.feed }} | Author: {{ post.author }} | Published: {{ post.published.strftime("%b %d, %Y") }}</p>

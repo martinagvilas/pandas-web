@@ -9,6 +9,7 @@ import typing
 import feedparser
 import markdown
 import jinja2
+import yaml
 
 
 NUM_POSTS = 8
@@ -18,31 +19,47 @@ SITES = ['https://wesmckinney.com/feeds/all.atom.xml',
          'https://datapythonista.github.io/blog/atom.xml']
 
 
-def get_posts():
-    posts = []
-    for feed_url in SITES:
-        feed_data = feedparser.parse(feed_url)
-        for entry in feed_data.entries:
-            published = datetime.datetime.fromtimestamp(
-                time.mktime(entry.published_parsed))
-            posts.append({'title': entry.title,
-                          'author': entry.author,
-                          'published': published,
-                          'feed': feed_data['feed']['title'],
-                          'link': entry.link,
-                          'description': entry.description,
-                          'summary': entry.summary})
-    posts.sort(key=operator.itemgetter('published'), reverse=True)
-    return posts[:NUM_POSTS]
+class Preprocessors:
+    @staticmethod
+    def navbar_add_info(context):
+        for i, item in enumerate(context['navbar']):
+            context['navbar'][i] = dict(item,
+                                        has_subitems=isinstance(item['target'],
+                                                                list),
+                                        slug=(item['name'].replace(' ', '-')
+                                                          .lower()))
+        return context
+
+    @staticmethod
+    def blog_add_posts(context):
+        posts = []
+        for feed_url in context['blog']['feed']:
+            feed_data = feedparser.parse(feed_url)
+            for entry in feed_data.entries:
+                published = datetime.datetime.fromtimestamp(
+                    time.mktime(entry.published_parsed))
+                posts.append({'title': entry.title,
+                              'author': entry.author,
+                              'published': published,
+                              'feed': feed_data['feed']['title'],
+                              'link': entry.link,
+                              'description': entry.description,
+                              'summary': entry.summary})
+        posts.sort(key=operator.itemgetter('published'), reverse=True)
+        context['blog']['posts'] = posts[:context['blog']['num_posts']]
+        return context
 
 
-def generate_blog(jinja_env: jinja2.Environment,
-                  target_path: str,
-                  base_url: str):
-    template = jinja_env.get_template('blog.html')
-    content = template.render(posts=get_posts(), base_url=base_url)
-    with open(os.path.join(target_path, 'blog.html'), 'w') as f:
-        f.write(content)
+def get_context(config_fname: str, preprocessors=[]):
+    with open(config_fname) as f:
+        context = yaml.safe_load(f)
+
+    for preprocessor in preprocessors:
+        context = preprocessor(context)
+        msg = f'{preprocessor.__name__} is missing the return statement'
+        assert context is not None, msg
+
+    return context
 
 
 def get_source_files(source_path: str) -> typing.Generator[str, None, None]:
@@ -52,12 +69,21 @@ def get_source_files(source_path: str) -> typing.Generator[str, None, None]:
             yield os.path.join(root, fname)
 
 
-def main(source_path: str,
+def main(config_fname: str,
+         source_path: str,
          theme_path: str,
          target_path: str,
          base_url: str) -> int:
     shutil.rmtree(target_path, ignore_errors=True)
+    os.makedirs(target_path, exist_ok=True)
+    shutil.copytree(os.path.join(theme_path, 'static/'),
+                    os.path.join(target_path, 'static'))
+
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(theme_path))
+    context = get_context(config_fname,
+                          preprocessors=[Preprocessors.navbar_add_info,
+                                         Preprocessors.blog_add_posts])
+    context['base_url'] = base_url
 
     for fname in get_source_files(source_path):
         dirname = os.path.dirname(fname)
@@ -74,8 +100,7 @@ def main(source_path: str,
                 content += '{% block body %}'
                 content += body
                 content += '{% endblock %}'
-            content = (jinja_env.from_string(content)
-                                .render(base_url=base_url))
+            content = (jinja_env.from_string(content).render(**context))
             fname = os.path.splitext(fname)[0] + '.html'
             with open(os.path.join(target_path, fname), 'w') as f:
                 f.write(content)
@@ -83,13 +108,11 @@ def main(source_path: str,
             shutil.copy(os.path.join(source_path, fname),
                         os.path.join(target_path, dirname))
 
-    generate_blog(jinja_env, target_path, base_url)
-    shutil.copytree(os.path.join(theme_path, 'static/'),
-                    os.path.join(target_path, 'static'))
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Documentation builder.')
+    parser.add_argument('config_fname', default='theme/pandas.yml',
+                        help='path to the yaml config file')
     parser.add_argument('--sources-path', default='source',
                         help='path to the directory with the markdown pages')
     parser.add_argument('--theme-path', default='theme',
@@ -99,7 +122,8 @@ if __name__ == '__main__':
     parser.add_argument('--base-url', default='',
                         help='base url where the website is served from')
     args = parser.parse_args()
-    sys.exit(main(args.sources_path,
+    sys.exit(main(args.config_fname,
+                  args.sources_path,
                   args.theme_path,
                   args.target_path,
                   args.base_url))
