@@ -9,13 +9,14 @@ If you use pandas for a scientific publication, please add a citation to the fol
 
   Bibtex entry:
     ```
-    @InProceedings{ mckinney-proc-scipy-2010,
-      author    = { Wes McKinney },
-      title     = { Data Structures for Statistical Computing in Python },
-      booktitle = { Proceedings of the 9th Python in Science Conference },
-      pages     = { 51 - 56 },
-      year      = { 2010 },
-      editor    = { St\'efan van der Walt and Jarrod Millman }
+    @inproceedings{mckinney2010data,
+      title={Data structures for statistical computing in python},
+      author={McKinney, Wes and others},
+      booktitle={Proceedings of the 9th Python in Science Conference},
+      volume={445},
+      pages={51--56},
+      year={2010},
+      organization={Austin, TX}
     }
     ```
 
@@ -24,9 +25,12 @@ If you use pandas for a scientific publication, please add a citation to the fol
 
   Bibtex entry:
     ```
-    @article{mckinneypandas,
-      title={pandas: a Foundational Python Library for Data Analysis and Statistics},
-      author={McKinney, Wes}
+    @article{mckinney2011pandas,
+      title={pandas: a foundational Python library for data analysis and statistics},
+      author={McKinney, Wes},
+      journal={Python for High Performance and Scientific Computing},
+      volume={14},
+      year={2011}
     }
     ```
 
